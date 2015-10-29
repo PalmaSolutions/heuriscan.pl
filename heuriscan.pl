@@ -7,7 +7,7 @@ use strict;
 ############### Essential dependency configurations ###############
 
 #PATH TO LOG DIR
-my $logDir = '/var/log/clamlog';
+my $logDir = './';
 
 ############### End configurations ###############
 
@@ -69,7 +69,7 @@ my $heuri05 = '<\s{0,10}[Tt][iI][tT][lL][eE]\s{0,10}>.{0,50}[hH][aA][cC][kK][eE]
 #UDP Flood
 my $heuri06 = 'fsockopen\(.udp';
 #Bank Phishing Page
-my $heuri07 = '[Tt][iI][tT][lL][eE]>.{0,50}([Bb]ank|Twitter|Facebook).{0,40}([lL]og\s?[Ii]n|[pP]assword).{0,90}</[Tt][iI][tT][lL][eE]';
+my $heuri07 = '[Tt][iI][tT][lL][eE]>.{0,50}([Bb]ank|Twitter|Facebook|Google|Paypal|Payza|Skrill|Paxum).{0,40}([lL]og\s?[Ii]n|[pP]assword).{0,90}</[Tt][iI][tT][lL][eE]';
 #Mass Mailer
 my $heuri08 =  'mail\(\$email\[\$i\].{1,600}i\+\+';
 #Possible VB Shell
