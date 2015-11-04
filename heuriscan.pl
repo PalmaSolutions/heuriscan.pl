@@ -1,6 +1,7 @@
 #!/usr/local/bin/perl
-#Original authors: Daytona & Willie
-#Continued development: Daytona
+# Original authors: Daytona & Willie
+# Continued development: Daytona
+# added additional patterns by Palma Solutions
 use warnings;
 use strict;
 
@@ -56,38 +57,47 @@ if ( -e "$foundFile" )  {
 	}
 }
 
-#LONG gzinflate
+# LONG gzinflate
 my $heuri01 = 'gzinflate\(.{0,15}[a-zA-Z0-9/+=]{250}';
-#LONG Unicode RegEx
+# LONG Unicode RegEx
 my $heuri02 = '([0-9]{1,3},){250}';
-#LONG base64_decode
+# LONG base64_decode
 my $heuri03 = q%(base64_decode|\\\\x62\\\\x61\\\\x73\\\\x65\\\\x36\\\\x34\\\\x5F\\\\x64\\\\x65\\\\x63\\\\x6F\\\\x64\\\\x65)(\(|\\\\x28).{0,15}[a-zA-Z0-9/+=]{250}%;
-#Yandex checker
+# Yandex checker
 my $heuri04 = 'HTTP_USER_AGENT.{0,30}Yandex';
-#Defaced Page
+# Defaced Page
 my $heuri05 = '<\s{0,10}[Tt][iI][tT][lL][eE]\s{0,10}>.{0,50}[hH][aA][cC][kK][eE][dD]\s{0,}[bB][yY]';
-#UDP Flood
+# UDP Flood
 my $heuri06 = 'fsockopen\(.udp';
-#Bank Phishing Page
+# Bank Phishing Page
 my $heuri07 = '[Tt][iI][tT][lL][eE]>.{0,50}([Bb]ank|Twitter|Facebook|Google|Paypal|Payza|Skrill|Paxum).{0,40}([lL]og\s?[Ii]n|[pP]assword).{0,90}</[Tt][iI][tT][lL][eE]';
-#Mass Mailer
+# Mass Mailer
 my $heuri08 =  'mail\(\$email\[\$i\].{1,600}i\+\+';
-#Possible VB Shell
+# Possible VB Shell
 my $heuri09 =  'objFSObject\.CreateTextFile';
-#LONG Hex Obfuscation RegEx
+# LONG Hex Obfuscation RegEx
 my $heuri10 = '([a-zA-Z0-9]{1,2}[,:]){250}';
-#Escape Encoded RegEx
+# Escape Encoded RegEx
 my $heuri11 = '(%[0-9a-zA-Z]{2}){80,}';
 
-#Build final grep expression
-my $heuriTerm = "$heuri01|$heuri02|$heuri03|$heuri04|$heuri05|$heuri06|$heuri07|$heuri08|$heuri09|$heuri10|$heuri11";
+# start / new regexes by Palma Solutions
+
+# obfuscated code
+my $heuri12 = '\$\{\"GL\\\\x4f\\\\\x42\\\\\x41\\\\\x4c\\\\\x53\"\}\[\"\\\\\x69\\\\\x68\\\\\x66\\\\\x6b\\\\\x76bw\\\\\x71\\\\x6fo\\\\x6es\"\]{80,}';
+# obfuscated JS
+my $heuri13 = '<script>document\.documentElement\.innerHTML\s+=\s+unescape\(\'{250,}\'\);<\/script>';
+
+# end / new regexes by Palma Solutions
+
+# Build final grep expression
+my $heuriTerm = "$heuri01|$heuri02|$heuri03|$heuri04|$heuri05|$heuri06|$heuri07|$heuri08|$heuri09|$heuri10|$heuri11|$heuri12|$heuri13";
 
 
-#Open log of detections and enable incremental writing
+# Open log of detections and enable incremental writing
 open FOUNDLOG, ">", $foundFile;
 FOUNDLOG->autoflush(1);
 
-#Scan start timestamp
+# Scan start timestamp
 print FOUNDLOG (strftime "Scan started: %H:%M %m-%d-%Y\n", localtime);
 
 #Main scanning subroutine &WantedFiles
